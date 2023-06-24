@@ -90,6 +90,7 @@ class PlayState extends MusicBeatState
 
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
+	private var misses:Float = 0;
 	private var combo:Int = 0;
 
 	private var healthBarBG:FlxSprite;
@@ -100,6 +101,10 @@ class PlayState extends MusicBeatState
 
 	private var iconP1:HealthIcon;
 	private var iconP2:HealthIcon;
+
+	private var dadHP:String = '0xFFFF0000'; //Opponent Health Bar Color
+	private var bfHP:String = '0xFF22FF00';  //Player Health Bar Color
+
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
@@ -662,11 +667,20 @@ class PlayState extends MusicBeatState
 
 		camPos = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
+		switch (SONG.player1)
+		{
+			case 'bf' | 'bf-car' | 'bf-christmas' | 'bf-holding-gf':
+				bfHP = '0xFF31b0d1';
+			case 'bf-pixel':
+				bfHP = '0xFF7bd6f6';
+		}
+
 		switch (SONG.player2)
 		{
 			case 'gf':
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
+				dadHP = '0xFFa5004d';
 				if (isStoryMode)
 				{
 					camPos.x += 600;
@@ -674,27 +688,38 @@ class PlayState extends MusicBeatState
 				}
 			case "spooky":
 				dad.y += 200;
+				dadHP = '0xFFd57e00';
 			case "monster":
 				dad.y += 100;
+				dadHP = '0xFFf3ff6e';
 			case 'monster-christmas':
 				dad.y += 130;
+				dadHP = '0xFFf3ff6e';
 			case 'dad':
 				camPos.x += 400;
+				dadHP = '0xFFaf66ce';
+			case 'mom' | 'mom-car':
+				dadHP = '0xFFd8558e';
 			case 'pico':
 				camPos.x += 600;
 				dad.y += 300;
+				dadHP = '0xFFb7d855';
 			case 'parents-christmas':
 				dad.x -= 500;
+				dadHP = '0xFFbe60b7';
 			case 'senpai' | 'senpai-angry':
 				dad.x += 150;
 				dad.y += 360;
+				dadHP = '0xFFffaa6f';
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'spirit':
 				dad.x -= 150;
 				dad.y += 100;
+				dadHP = '0xFFff3c6e';
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'tankman':
 				dad.y += 180;
+				dadHP = '0xFFe1e1e1';
 		}
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
@@ -829,14 +854,9 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(FlxColor.fromString(dadHP), FlxColor.fromString(bfHP));
 		// healthBar
 		add(healthBar);
-
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		scoreTxt.scrollFactor.set();
-		add(scoreTxt);
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -845,6 +865,11 @@ class PlayState extends MusicBeatState
 		iconP2 = new HealthIcon(SONG.player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
+
+		scoreTxt = new FlxText(0 + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 18);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.scrollFactor.set();
+		add(scoreTxt);
 
 		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
@@ -899,13 +924,6 @@ class PlayState extends MusicBeatState
 					});
 				case 'senpai' | 'roses' | 'thorns':
 					schoolIntro(doof);
-				case 'ugh':
-					ughIntro();
-				case 'stress':
-					stressIntro();
-				case 'guns':
-					gunsIntro();
-
 				default:
 					startCountdown();
 			}
@@ -914,14 +932,6 @@ class PlayState extends MusicBeatState
 		{
 			switch (curSong.toLowerCase())
 			{
-				// REMOVE THIS LATER
-				// case 'ugh':
-				// 	ughIntro();
-				// case 'stress':
-				// 	stressIntro();
-				// case 'guns':
-				// 	gunsIntro();
-
 				default:
 					startCountdown();
 			}
@@ -1921,7 +1931,17 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		if(misses == 0) {
+			scoreTxt.text = "Score:" + songScore + " • Misses:" + misses + " • FC";
+		}
+		if(misses <= 11 && misses >= 1) {
+			scoreTxt.text = "Score:" + songScore + " • Misses: " + misses + " • SDCB";
+		}
+		if(misses >= 11) {
+			scoreTxt.text = "Score:" + songScore + " • Misses: " + misses + " • Clear";
+		}
+		
+		scoreTxt.screenCenter(X);
 
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
@@ -2233,9 +2253,10 @@ class PlayState extends MusicBeatState
 				}
 				else if (daNote.tooLate || daNote.wasGoodHit)
 				{
-					if (daNote.tooLate)
+					if (daNote.tooLate && !daNote.isSustainNote)
 					{
 						health -= 0.0475;
+						misses += 1;
 						vocals.volume = 0;
 						killCombo();
 					}

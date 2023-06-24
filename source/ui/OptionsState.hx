@@ -180,9 +180,9 @@ class OptionsMenu extends Page
 		createItem('preferences', function() switchPage(Preferences));
 		createItem("controls", function() switchPage(Controls));
 		// createItem('colors', function() switchPage(Colors));
-		#if cpp
+		/*#if cpp
 		createItem('mods', function() switchPage(Mods));
-		#end
+		#end*/
 
 		#if CAN_OPEN_LINKS
 		if (showDonate)
@@ -202,7 +202,7 @@ class OptionsMenu extends Page
 
 	function createItem(name:String, callback:Void->Void, fireInstantly = false)
 	{
-		var item = items.createItem(0, 100 + items.length * 100, name, Bold, callback);
+		var item = items.createItem(0, 140 + items.length * 100, name, Bold, callback);
 		item.fireInstantly = fireInstantly;
 		item.screenCenter(X);
 		return item;

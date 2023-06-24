@@ -90,18 +90,9 @@ class MainMenuState extends MusicBeatState
 			FlxFlicker.flicker(magenta, 1.1, 0.15, false, true);
 		});
 
-		menuItems.enabled = false; // disable for intro
+		menuItems.enabled = true; // disable for intro
 		menuItems.createItem('story mode', function() startExitState(new StoryMenuState()));
 		menuItems.createItem('freeplay', function() startExitState(new FreeplayState()));
-		// addMenuItem('options', function () startExitState(new OptionMenu()));
-		#if CAN_OPEN_LINKS
-		var hasPopupBlocker = #if web true #else false #end;
-
-		if (VideoState.seenVideo)
-			menuItems.createItem('kickstarter', selectDonate, hasPopupBlocker);
-		else
-			menuItems.createItem('donate', selectDonate, hasPopupBlocker);
-		#end
 		menuItems.createItem('options', function() startExitState(new OptionsState()));
 		// #if newgrounds
 		// 	if (NGio.isLoggedIn)
@@ -124,12 +115,18 @@ class MainMenuState extends MusicBeatState
 		FlxG.camera.follow(camFollow, null, 0.06);
 		// FlxG.camera.setScrollBounds(bg.x, bg.x + bg.width, bg.y, bg.y + bg.height * 1.2);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 36, 0, "Funkin' Ver: " + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
+		versionShit.screenCenter(X);
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		versionShit.text += '(Newgrounds exclusive preview)';
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Funkin' Pan Engine Ver: " + '0.1.0', 12);
+		versionShit.scrollFactor.set();
+		versionShit.screenCenter(X);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
 
 		// NG.core.calls.event.logEvent('swag').send();
 

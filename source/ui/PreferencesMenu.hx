@@ -128,7 +128,7 @@ class PreferencesMenu extends ui.OptionsState.Page
 		daSwap = !daSwap;
 		preferences.set(prefName, daSwap);
 		checkboxes[items.selectedIndex].daValue = daSwap;
-		trace('toggled? ' + preferences.get(prefName));
+		trace('Saved: ' + preferences.get(prefName));
 
 		switch (prefName)
 		{
