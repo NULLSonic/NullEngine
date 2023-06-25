@@ -93,13 +93,7 @@ class MainMenuState extends MusicBeatState
 		menuItems.enabled = true; // disable for intro
 		menuItems.createItem('story mode', function() startExitState(new StoryMenuState()));
 		menuItems.createItem('freeplay', function() startExitState(new FreeplayState()));
-		menuItems.createItem('options', function() startExitState(new OptionsState()));
-		// #if newgrounds
-		// 	if (NGio.isLoggedIn)
-		// 		menuItems.createItem("logout", selectLogout);
-		// 	else
-		// 		menuItems.createItem("login", selectLogin);
-		// #end
+		menuItems.createItem('options', function() startExitState(new options.MainOptionsState()));
 
 		// center vertically
 		var spacing = 160;
@@ -252,6 +246,10 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+		}
+
+		if(FlxG.keys.justPressed.SEVEN) {
+			FlxG.switchState(new editors.MasterEditorState());
 		}
 
 		if (_exiting)
