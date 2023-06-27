@@ -43,12 +43,25 @@ class MainOptionsState extends MusicBeatState
                 FlxG.sound.play(Paths.sound('cancelMenu'));
                 FlxG.switchState(new MainMenuState());
             }
+
+            if (controls.ACCEPT)
+            {
+                FlxG.sound.play(Paths.sound('confirmMenu'));
+                if (curSelected == 0) {
+
+                }
+                if (curSelected == 1) {
+                        
+                }
+                if (curSelected == 2) {
+                    FlxG.switchState(new options.GameplayState());
+                }
+            }
     
             super.update(elapsed);
     
             var upP = controls.UI_UP_P;
             var downP = controls.UI_DOWN_P;
-            var accepted = controls.ACCEPT;
     
             if (upP)
                 changeSelection(-1);

@@ -14,6 +14,7 @@ class WarningState extends MusicBeatState
 
     override function create()
     {
+
         FlxG.mouse.visible = false;
 
         bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -26,13 +27,11 @@ class WarningState extends MusicBeatState
         textShit = new FlxText(0, FlxG.height / 2 - 150, FlxG.width, "", 32);
         textShit.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
         textShit.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 4);
-        textShit.applyMarkup("*Watch out!!*\n\nThis game contains *flashing lights* and *disturbing* stuff.\nYou can *turn off* the flashing lights in the options menu.\n\n\n\n\n\n\n\nPress *ENTER* to exit!",
+        textShit.applyMarkup("*Watch out!!*\n\nThis game contains *flashing lights* and *disturbing* stuff.\nYou can *turn off* the flashing lights in the options menu.\n\nGo to: *Options > Preference > Flashing Lights*\n\n\n\n\n\n\nPress *ENTER* to exit!",
         [
             new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFFF0000), "*")
         ]);
         add(textShit);
-
-        FlxG.sound.play(Paths.music('breakfast'), 1, true); //Can somebody help me?? I can't get it to work.
 
         super.create();
     }
