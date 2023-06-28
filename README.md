@@ -36,3 +36,24 @@ You should have everything ready for compiling the game! Follow the guide below 
 
 At the moment, you can optionally fix the transition bug in songs with zoomed-out cameras.
 - Run `haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons` in the terminal/command-prompt.
+
+### Ignored files
+
+I gitignore the API keys for the game so that no one can nab them and post fake high scores on the leaderboards. But because of that the game
+doesn't compile without it.
+
+Just make a file in `/source` and call it `APIStuff.hx`, and copy & paste this into it
+
+```haxe
+package;
+
+class APIStuff
+{
+	inline public static var API:String = "51348:TtzK0rZ8";
+	inline public static var EncKey:String = "5NqKsSVSNKHbF9fPgZPqPg==";
+	inline public static var SESSION:String = null;
+}
+
+```
+
+and you should be good to go there.
