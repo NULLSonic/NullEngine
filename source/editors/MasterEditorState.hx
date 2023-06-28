@@ -17,7 +17,7 @@ class MasterEditorState extends MusicBeatState
 
     var editors:Array<String> = [
         'Chart Editor',
-        'Character Editor',
+        'Character Offset Editor',
         'Stage Editor'
     ];
 
@@ -73,15 +73,21 @@ class MasterEditorState extends MusicBeatState
 		if (downP)
 			changeSelection(1);
 		if (accepted)
+        {
             if(curSelected == 0) {
                 FlxG.sound.play(Paths.sound('confirmMenu'));
-                FlxG.switchState(new editors.ChartingState());
+                FlxG.switchState(new ChartingState());
+            }
+            if(curSelected == 1) {
+                FlxG.sound.play(Paths.sound('confirmMenu'));
+                FlxG.switchState(new InDevState());
             }
             else
             {
                 FlxG.sound.play(Paths.sound('confirmMenu'));
-                FlxG.switchState(new editors.InDevState());
+                FlxG.switchState(new InDevState());
             }
+        }
     }
 
     var bullShit:Int = 0;

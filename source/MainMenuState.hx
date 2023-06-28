@@ -93,7 +93,7 @@ class MainMenuState extends MusicBeatState
 		menuItems.enabled = true; // disable for intro
 		menuItems.createItem('story mode', function() startExitState(new StoryMenuState()));
 		menuItems.createItem('freeplay', function() startExitState(new FreeplayState()));
-		menuItems.createItem('options', function() startExitState(new options.MainOptionsState()));
+		//menuItems.createItem('options', function() startExitState(new options.MainOptionsState()));
 
 		// center vertically
 		var spacing = 160;
@@ -115,7 +115,7 @@ class MainMenuState extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Funkin' Pan Engine Ver: " + '0.1.0', 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Funkin' Pan Engine Ver: " + '0.1.0 [BETA RELEASE]', 12);
 		versionShit.scrollFactor.set();
 		versionShit.screenCenter(X);
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
